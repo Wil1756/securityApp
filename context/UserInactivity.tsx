@@ -33,7 +33,7 @@ export const UserInactivityProvider = ({ children } : any) => {
         } else if (nextAppState === 'active' && appState.current.match(/background/)) {
             const elapsed = Date.now() - (storage.getNumber('startTime') || 0);
             
-            if (elapsed > LOCK_TIME) {
+            if (elapsed >= LOCK_TIME) {
                 router.push('/(modals)/lock');
             }
         }
