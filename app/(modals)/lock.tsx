@@ -1,6 +1,9 @@
 import { useRouter } from 'expo-router';
 import  React,{useEffect, useState} from 'react';
-import { View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import * as Haptics from 'expo-haptics';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 
 export default function Page() {
@@ -13,6 +16,18 @@ export default function Page() {
             // Add to do here!!
         }
     },[code])
+
+    const onNumbersPress = (number: number) => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        setCode([...code, number]);
+    }
+
+    const onumberBackSpace = () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        setCode(code.slice(0, -1));
+    }
+
+    const onBiometricPress = () => {};
 
     return (
         <SafeAreaView>
@@ -28,6 +43,51 @@ export default function Page() {
                 </View>
             ))}
            </View>
+
+           <View style={styles.numbersView}>
+            <View style={{ flexDirection:'row', justifyContent:'space-between'}}>
+                {[1, 2, 3].map((number)=> (
+                    <TouchableOpacity key={number} onPress={()=> onNumbersPress(number)}>
+                        <Text style={styles.number}>
+                        {number}
+                        </Text>
+                    </TouchableOpacity>
+                    
+                ))}
+            </View>
+
+            <View style={{ flexDirection:'row', justifyContent:'space-between'}}>
+                {[4, 5, 6].map((number)=> (
+                    <TouchableOpacity key={number} onPress={()=> onNumbersPress(number)}>
+                        <Text style={styles.number}>
+                        {number}
+                        </Text>
+                    </TouchableOpacity>
+                    
+                ))}
+            </View>
+
+            <View style={{ flexDirection:'row', justifyContent:'space-between'}}>
+                {[7, 8, 9].map((number)=> (
+                    <TouchableOpacity key={number} onPress={()=> onNumbersPress(number)}>
+                        <Text style={styles.number}>
+                        {number}
+                        </Text>
+                    </TouchableOpacity>
+                    
+                ))}
+            </View>
+
+            <View style={{
+                flexDirection:'row',
+                justifyContent:'space-between', 
+                alignItems:'center'
+            }}>
+                <TouchableOpacity onPress={onBiometricPress}>
+                    <MaterialCommunityIcons name='face-recognition' size={26} color='black'/>
+                </TouchableOpacity>
+            </View>
+           </View>
   
         </SafeAreaView>
     );
@@ -37,7 +97,7 @@ const styles = StyleSheet.create({
     greetings: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginTop: 80,
+        marginTop: 50,
         alignSelf:'center'
     },
     codeView: {
